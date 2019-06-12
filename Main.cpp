@@ -1,14 +1,12 @@
 #include<iostream>
 #include<fstream>
-#include <functional>
 #include "Food.hpp"
 #include "BinaryTree.hpp"
+#include "Queue.hpp"
+#include "FoodProcessor.hpp"
 
 using namespace std;
 
-//void (Queue<Food>::*pt2Member)(const Food &) = NULL;
-
-typedef void(Queue<Food>::*TArg)(const Food &);
 
 template <class T>
 Queue<T> *unloader;
@@ -18,29 +16,47 @@ void add(T & data) {
 	unloader<T>->enqueue(data);
 }
 
+template <class T>
+void addItem(Queue<T> & queue, T & data){
+	queue.enqueue(data);
+}
+
+template <class T>
+void qEnq(Queue<T>& data)
+{
+	data.enqueue();
+}
+
+template <class T>
+void print(T & data) {
+	cout << data;
+}
+
 int main()
 {
 	fstream file;
 	file.open("foodData.txt");
 	Food item;
-
-	//pt2Member = &Queue<Food>::enqueue;
-
-	TArg pTArg = &Queue<Food>::enqueue;
+	FoodProcessor fp;
+	Queue<Food> testQ;
 
 	BinaryTree<Food> calTree;
-	Queue<Food> testQ;
-	unloader<Food> = &testQ;
 	while (file >> item)
 	{
-		cout << item << endl;
 		calTree.add(item, Food::calorieLGreaterR);
-		calTree.inorderTraverse(add);
+		fp.add(item);
 	}
-
 	cout << "BTREE\n";
+	//cout << calTree;
+
 	cout << calTree;
-	cout << "\n\n\n\n" << testQ.dequeue();
+	cout << "\n\n\n";
+	cout << fp.getNumFoods() << "\n\n";
+	calTree.breadthFirstTraversal(print);
+	//calTree.inorderTraverse(addItem<Food>, testQ);
+	//cout << testQ.queueFront();
+
+	fp.calRangeTraversal(print,50, 250);
 
 	cout << "\n\nTEST!\n\n";
 	system("pause");

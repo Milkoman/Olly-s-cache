@@ -19,14 +19,12 @@ public:
 	T dequeue();
 	T queueFront();
 	T queueRear();
-	void empty() { this->clear(); };
-	int getSize() { return this->getCount(); };
-
-	void test(T) const { std::cout << "complete"; };
+	void empty() { this->clear(); }
+	int getSize() { return this->getCount(); }
 };
 
 
-#endif // !QUEUE_H
+
 
 
 /************************************************************************
@@ -105,3 +103,4 @@ inline T Queue<T>::queueRear()
 		throw EmptyList();
 	}
 }
+#endif // !QUEUE_H

@@ -39,6 +39,7 @@ class Food
 		friend ostream &operator<< (ostream &, const Food &);
 		friend istream &operator>> (istream &, Food &);
 		bool operator> (const Food &);
+		bool operator== (const Food&);
 		//Methods
 
 		static bool calorieLGreaterR(const Food &, const Food &);

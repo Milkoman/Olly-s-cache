@@ -7,12 +7,14 @@
 
 //Exception class
 class EmptyTree {};
+class NotFound {};
 
 using std::ostream;
 template<class T>
 class BinaryTree;
 template<class T>
 ostream &operator<< (ostream &, const BinaryTree<T> &);
+
 
 template<class T>
 class BinaryTree
@@ -51,7 +53,10 @@ protected:
 	void inorder(void visit(T &, int, ostream&), BinaryNode<T>* treePtr, ostream&) const;
 	void postorder(void visit(T &, int, ostream&), BinaryNode<T>* treePtr, ostream&) const;
 
+	
+
 	void inorderBounded(void visit(T &), BinaryNode<T>* treePtr, bool leftGreaterThanRight(const T &,const T &), const T & min, const T & max) const;
+	void breadthFirstBounded(void visit(T&), BinaryNode<T>* treePtr, bool leftGreaterThanRight(const T&, const T&), const T& min, const T& max) const;
 
 public:
 	//Constructors & Destructor
@@ -87,13 +92,16 @@ public:
 	void breadthFirstTraversal(void visit(T &, int)) const { breadthFirst(visit, root); }
 
 	void preorderTraverse(void visit(T &, ostream &), ostream & strm) const { preorder(visit, root, strm); }
-	void inorderTraverse(void visit(T &, std::ostream &), std::ostream & strm) const { inorder(visit, root, strm); }
+	//void inorderTraverse(void visit(T &, std::ostream &), std::ostream & strm) const { inorder(visit, root, strm); }
 	void postorderTraversal(void visit(T &, ostream &), ostream & strm) const { postorder(visit, root, strm); }
 	void breadthFirstTraversal(void visit(T &, ostream &), ostream & strm) const { breadthFirst(visit, root, strm); }
 	void preorderTraverse(void visit(T &, int, ostream &), ostream & strm) const { preorder(visit, root, strm); }
 	void inorderTraverse(void visit(T &, int, ostream &), ostream & strm) const { inorder(visit, root, strm); }
 	void postorderTraversal(void visit(T &, int, ostream &), ostream & strm) const { postorder(visit, root, strm); }
 	void breadthFirstTraversal(void visit(T &, int, ostream &), ostream & strm) const { breadthFirst(visit, root, strm); }
+	void inorderBoundedTraversal(void visit(T&), bool leftGreaterThanRight(const T&, const T&), const T& min, const T& max) const;
+	void breadthFirstBoundedTraversal(void visit(T&), bool leftGreaterThanRight(const T&, const T&), const T& min, const T& max) const;
+
 
 	BinaryTree<T> & testo();
 
@@ -346,7 +354,8 @@ inline void BinaryTree<T>::breadthFirst(void visit(T &), BinaryNode<T>* treePtr)
 	while (!queue.isEmpty()) {
 		BinaryNode<T>* active = queue.dequeue();
 
-		visit(active->getData());
+		T item = active->getData();
+		visit(item);
 		if (active->getLeftPtr()) { queue.enqueue(active->getLeftPtr()); }
 		if (active->getRightPtr()) { queue.enqueue(active->getRightPtr()); }
 
@@ -416,7 +425,8 @@ inline void BinaryTree<T>::breadthFirst(void visit(T &, ostream &), BinaryNode<T
 	while (!queue.isEmpty()) {
 		BinaryNode<T>* active = queue.dequeue();
 
-		visit(active->getData(), strm);
+		T item = active->getData();
+		visit(item, strm);
 		if (active->getLeftPtr()) { queue.enqueue(active->getLeftPtr()); }
 		if (active->getRightPtr()) { queue.enqueue(active->getRightPtr()); }
 
@@ -443,6 +453,7 @@ inline void BinaryTree<T>::preorder(void visit(T &, ostream &), BinaryNode<T>* t
 	Perameters: A processing function with ostream ref, root node pointer, ostream ref
 	Post: Processess nodes according to visit inorder
 */
+
 template<class T>
 inline void BinaryTree<T>::inorder(void visit(T &, ostream &), BinaryNode<T>* treePtr, ostream& strm) const
 {
@@ -454,6 +465,7 @@ inline void BinaryTree<T>::inorder(void visit(T &, ostream &), BinaryNode<T>* tr
 		inorder(visit, treePtr->getRightPtr(), strm);
 	}
 }
+
 /*
 	Pre:
 	Perameters: A processing function with ostream ref, root node pointer, ostream ref
@@ -484,8 +496,8 @@ inline void BinaryTree<T>::breadthFirst(void visit(T &, int), BinaryNode<T>* tre
 
 	while (!queue.isEmpty()) {
 		BinaryNode<T>* active = queue.dequeue();
-
-		visit(active->getData(), getHeightHelper(active));
+		T item = active->getData();
+		visit(item, getHeightHelper(active));
 		if (active->getLeftPtr()) { queue.enqueue(active->getLeftPtr()); }
 		if (active->getRightPtr()) { queue.enqueue(active->getRightPtr()); }
 
@@ -614,16 +626,39 @@ inline void BinaryTree<T>::inorderBounded(void visit(T &), BinaryNode<T>* treePt
 {
 	if (treePtr)
 	{
-		if (!leftGreaterThanRight(min, treePtr->getLeftPtr()->getData())) {
+
+		if (!leftGreaterThanRight(min, treePtr->getData())) {
 			inorderBounded(visit, treePtr->getLeftPtr(), leftGreaterThanRight, min, max);
 		}
 		
 		T theItem = treePtr->getData();
-		visit(theItem);
-		if (leftGreaterThanRight(treePtr->getRightPtr->getData(), max)) {
+		if (!leftGreaterThanRight(min, theItem) && !leftGreaterThanRight(theItem, max)) {
+			visit(theItem);
+		}
+
+		if (!leftGreaterThanRight(treePtr->getData(), max)) {
 			inorderBounded(visit, treePtr->getRightPtr(), leftGreaterThanRight, min, max);
 		}
+
 		
+	}
+}
+template<class T>
+inline void BinaryTree<T>::breadthFirstBounded(void visit(T&), BinaryNode<T>* treePtr, bool leftGreaterThanRight(const T &, const T &), const T& min, const T& max) const
+{
+	Queue<BinaryNode<T>*> queue;
+	queue.enqueue(treePtr);
+
+	while (!queue.isEmpty()) {
+		BinaryNode<T>* active = queue.dequeue();
+		T itemData = active->getData();
+		if (!leftGreaterThanRight(min, itemData) && !leftGreaterThanRight(itemData, max)) {
+			visit(itemData);
+		}
+		
+		if (!leftGreaterThanRight(min, itemData) && active->getLeftPtr()) { queue.enqueue(active->getLeftPtr()); }
+		if (!!leftGreaterThanRight(itemData, max) && active->getRightPtr()) { queue.enqueue(active->getRightPtr()); }
+
 	}
 }
 /*
@@ -726,7 +761,7 @@ inline T BinaryTree<T>::search(const T & dataIn)
 	if (findNode(root, dataIn))
 		return dataIn;
 	else
-		return "NOT FOUND!";
+		throw NotFound();
 }
 /*
 	Pre:
@@ -738,6 +773,18 @@ inline void BinaryTree<T>::clear()
 {
 	destroyTree(root);
 	root = nullptr;
+}
+
+template<class T>
+inline void BinaryTree<T>::inorderBoundedTraversal(void visit(T&), bool leftGreaterThanRight(const T &, const T &), const T& min, const T& max) const
+{
+	inorderBounded(visit, root, leftGreaterThanRight, min, max);
+}
+
+template<class T>
+inline void BinaryTree<T>::breadthFirstBoundedTraversal(void visit(T&), bool leftGreaterThanRight(const T &, const T &), const T& min, const T& max) const
+{
+	breadthFirstBounded(visit, root, leftGreaterThanRight, min, max);
 }
 
 template<class T>
@@ -757,6 +804,19 @@ inline ostream & operator<<(ostream & strm, const BinaryTree<T> &obj)
 {
 	obj.ostreamHelper(obj.root);
 	return strm;
+}
+
+
+template<class U, class T>
+inline void inorder(void visit(U&,T&), U & othercls, BinaryNode<T>* treePtr)
+{
+	if (treePtr)
+	{
+		inorder(visit, treePtr->getLeftPtr());
+		T theItem = treePtr->getData();
+		visit(othercls, theItem);
+		inorder(visit, treePtr->getRightPtr());
+	}
 }
 
 

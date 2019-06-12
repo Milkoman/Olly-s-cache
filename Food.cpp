@@ -13,6 +13,11 @@ bool Food::operator>(const Food &right)
 	return name > right.name;
 }
 
+bool Food::operator==(const Food& right)
+{
+	return name == right.name;
+}
+
 bool Food::calorieLGreaterR(const Food & left, const Food & right)
 {
 	return left.calorie > right.calorie;
