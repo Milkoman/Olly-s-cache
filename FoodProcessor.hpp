@@ -17,10 +17,10 @@ public:
 	~FoodProcessor();
 
 	bool replace(const Food&);
-	void calRangeTraversal(void visit(Food &), int min, int max);
-	void fatRangeTraversal(void visit(Food &), int min, int max);
-	void carbRangeTraversal(void visit(Food &), int min, int max);
-	void protRangeTraversal(void visit(Food&), int min, int max);
+	void calRangeTraverse(void visit(Food &), int min, int max);
+	void fatRangeTraverse(void visit(Food &), int min, int max);
+	void carbRangeTraverse(void visit(Food &), int min, int max);
+	void protRangeTraverse(void visit(Food&), int min, int max);
 	int getNumFoods() { return calTree.getNumNodes(); };
 
 	void add(const Food &);

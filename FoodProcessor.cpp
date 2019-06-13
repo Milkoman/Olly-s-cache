@@ -24,40 +24,40 @@ bool FoodProcessor::replace(const Food& food)
 	return true;
 }
 
-void FoodProcessor::calRangeTraversal(void visit(Food &), int min, int max)
+void FoodProcessor::calRangeTraverse(void visit(Food &), int min, int max)
 {
 	Food minF;
 	Food maxF;
 	minF.setCalorie(min);
 	maxF.setCalorie(max);
-	calTree.inorderBoundedTraversal(visit, Food::calorieLGreaterR, minF, maxF);
+	calTree.inorderBoundedTraverse(visit, Food::calorieLGreaterR, minF, maxF);
 }
 
-void FoodProcessor::fatRangeTraversal(void visit(Food &), int min, int max)
+void FoodProcessor::fatRangeTraverse(void visit(Food &), int min, int max)
 {
 	Food minF;
 	Food maxF;
 	minF.setFat(min);
 	maxF.setFat(max);
-	fatTree.inorderBoundedTraversal(visit, Food::fatLGreaterR, minF, maxF);
+	fatTree.inorderBoundedTraverse(visit, Food::fatLGreaterR, minF, maxF);
 }
 
-void FoodProcessor::carbRangeTraversal(void visit(Food &), int min, int max)
+void FoodProcessor::carbRangeTraverse(void visit(Food &), int min, int max)
 {
 	Food minF;
 	Food maxF;
 	minF.setCarb(min);
 	maxF.setCarb(max);
-	carbTree.inorderBoundedTraversal(visit, Food::carbLGreaterR, minF, maxF);
+	carbTree.inorderBoundedTraverse(visit, Food::carbLGreaterR, minF, maxF);
 }
 
-void FoodProcessor::protRangeTraversal(void visit(Food &), int min, int max)
+void FoodProcessor::protRangeTraverse(void visit(Food &), int min, int max)
 {
 	Food minF;
 	Food maxF;
 	minF.setProtien(min);
 	maxF.setProtien(max);
-	protTree.inorderBoundedTraversal(visit, Food::proteinLGreaterR, minF, maxF);
+	protTree.inorderBoundedTraverse(visit, Food::proteinLGreaterR, minF, maxF);
 }
 
 void FoodProcessor::add(const Food &food)

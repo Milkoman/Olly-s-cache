@@ -1,4 +1,4 @@
-#include<iostream>
+ #include<iostream>
 #include<fstream>
 #include "Food.hpp"
 #include "BinaryTree.hpp"
@@ -9,22 +9,20 @@ using namespace std;
 
 
 template <class T>
-Queue<T> *unloader;
-
-template <class T>
-void add(T & data) {
-	unloader<T>->enqueue(data);
-}
-
-template <class T>
-void addItem(Queue<T> & queue, T & data){
+void add(Queue<T> & queue, T & data){
 	queue.enqueue(data);
 }
 
 template <class T>
-void qEnq(Queue<T>& data)
+void add(BinaryTree<T> & btree, T & data)
 {
-	data.enqueue();
+	btree.add(data);
+}
+
+template <class T>
+void add(BinaryTree<T> & btree, T & data, bool LGR(const T &, const T &))
+{
+	btree.add(data, LGR);
 }
 
 template <class T>
@@ -41,6 +39,7 @@ int main()
 	Queue<Food> testQ;
 
 	BinaryTree<Food> calTree;
+	BinaryTree<Food> newTree;
 	while (file >> item)
 	{
 		calTree.add(item, Food::calorieLGreaterR);
@@ -52,11 +51,13 @@ int main()
 	cout << calTree;
 	cout << "\n\n\n";
 	cout << fp.getNumFoods() << "\n\n";
-	calTree.breadthFirstTraversal(print);
-	//calTree.inorderTraverse(addItem<Food>, testQ);
-	//cout << testQ.queueFront();
+	calTree.testFPT(add, testQ);
+	calTree.inorderTraverse(add, newTree, Food::carbLGreaterR);
 
-	fp.calRangeTraversal(print,50, 250);
+	newTree.inorderTraverse(print);
+
+
+	fp.calRangeTraverse(print,50, 250);
 
 	cout << "\n\nTEST!\n\n";
 	system("pause");

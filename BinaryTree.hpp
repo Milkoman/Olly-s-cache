@@ -40,24 +40,54 @@ protected:
 	void preorder(void visit(T &), BinaryNode<T> *treePtr) const;
 	void inorder(void visit(T &), BinaryNode<T> *treePtr) const;
 	void postorder(void visit(T &), BinaryNode<T> *treePtr) const;
+
 	void breadthFirst(void visit(T &, ostream &), BinaryNode<T>* treePtr, ostream &) const;
 	void preorder(void visit(T &, ostream &), BinaryNode<T>* treePtr, ostream &) const;
 	void inorder(void visit(T &, ostream &), BinaryNode<T>* treePtr, ostream &) const;
 	void postorder(void visit(T &, ostream &), BinaryNode<T>* treePtr, ostream &) const;
+
 	void breadthFirst(void visit(T &, int), BinaryNode<T> *treePtr) const;
 	void preorder(void visit(T &, int), BinaryNode<T> *treePtr) const;
 	void inorder(void visit(T &, int), BinaryNode<T> *treePtr) const;
 	void postorder(void visit(T &, int), BinaryNode<T> *treePtr) const;
+
 	void breadthFirst(void visit(T &, int, ostream&), BinaryNode<T>* treePtr, ostream&) const;
 	void preorder(void visit(T &, int, ostream&), BinaryNode<T>* treePtr, ostream&) const;
 	void inorder(void visit(T &, int, ostream&), BinaryNode<T>* treePtr, ostream&) const;
 	void postorder(void visit(T &, int, ostream&), BinaryNode<T>* treePtr, ostream&) const;
 
+	template<template<class V> class U>
+	void breadthFirst(void visit(U<T>&, T&), BinaryNode<T>* treePtr, U<T>&) const;
+	template<template<class V> class U>
+	void preorder(void visit(U<T>&, T&), BinaryNode<T>* treePtr, U<T>&) const;
+	template<template<class V> class U>
+	void inorder(void visit(U<T>&, T&), BinaryNode<T>* treePtr, U<T>&) const;
+	template<template<class V> class U>
+	void postorder(void visit(U<T>&, T&), BinaryNode<T>* treePtr, U<T>&) const;
+
+	template<template<class V> class U>
+	void breadthFirst(void visit(U<T>&, T&, bool LgreaterR(const T &, const T &)), BinaryNode<T>* treePtr, U<T>& obj, bool LGreaterR(const T &, const T &)) const;
+	template<template<class V> class U>
+	void preorder(void visit(U<T>&, T&, bool LgreaterR(const T &, const T &)), BinaryNode<T>* treePtr, U<T>& obj, bool LGreaterR(const T &, const T &)) const;
+	template<template<class V> class U>
+	void inorder(void visit(U<T>&, T&, bool LgreaterR(const T &, const T &)), BinaryNode<T>* treePtr, U<T>& obj, bool LGreaterR(const T &, const T &)) const;
+	template<template<class V> class U>
+	void postorder(void visit(U<T>&, T&, bool LgreaterR(const T &, const T &)), BinaryNode<T>* treePtr, U<T>& obj, bool LGreaterR(const T &, const T &)) const;
+
 	
-
-	void inorderBounded(void visit(T &), BinaryNode<T>* treePtr, bool leftGreaterThanRight(const T &,const T &), const T & min, const T & max) const;
 	void breadthFirstBounded(void visit(T&), BinaryNode<T>* treePtr, bool leftGreaterThanRight(const T&, const T&), const T& min, const T& max) const;
+	void preorderBounded(void visit(T&), BinaryNode<T>* treePtr, bool leftGreaterThanRight(const T&, const T&), const T& min, const T& max) const;
+	void inorderBounded(void visit(T &), BinaryNode<T>* treePtr, bool leftGreaterThanRight(const T &, const T &), const T & min, const T & max) const;
+	void postorderBounded(void visit(T &), BinaryNode<T>* treePtr, bool leftGreaterThanRight(const T &, const T &), const T & min, const T & max) const;
 
+	template<template<class V> class U>
+	void breadthFirstBounded(void visit(U<T>&, T&, bool LgreaterR(const T &, const T &)), BinaryNode<T>* treePtr, U<T>& obj, bool LGreaterR(const T &, const T &), const T & min, const T & max) const;
+	template<template<class V> class U>
+	void preorderBounded(void visit(U<T>&, T&, bool LgreaterR(const T &, const T &)), BinaryNode<T>* treePtr, U<T>& obj, bool LGreaterR(const T &, const T &), const T & min, const T & max) const;
+	template<template<class V> class U>
+	void inorderBounded(void visit(U<T>&, T&, bool LgreaterR(const T &, const T &)), BinaryNode<T>* treePtr, U<T>& obj, bool LGreaterR(const T &, const T &), const T & min, const T & max) const;
+	template<template<class V> class U>
+	void postorderBounded(void visit(U<T>&, T&, bool LgreaterR(const T &, const T &)), BinaryNode<T>* treePtr, U<T>& obj, bool LGreaterR(const T &, const T &), const T & min, const T & max) const;
 public:
 	//Constructors & Destructor
 	BinaryTree();
@@ -84,33 +114,68 @@ public:
 	//Traversals ***Requires client defined function(s) - pass said function as argument***
 	void preorderTraverse(void visit(T &)) const { preorder(visit, root); }
 	void inorderTraverse(void visit(T &)) const { inorder(visit, root); }
-	void postorderTraversal(void visit(T &)) const { postorder(visit, root); }
-	void breadthFirstTraversal(void visit(T &)) const { breadthFirst(visit, root); }
+	void postorderTraverse(void visit(T &)) const { postorder(visit, root); }
+	void breadthFirstTraverse(void visit(T &)) const { breadthFirst(visit, root); }
+
 	void preorderTraverse(void visit(T &, int)) const { preorder(visit, root); }
 	void inorderTraverse(void visit(T &, int)) const { inorder(visit, root); }
-	void postorderTraversal(void visit(T &, int)) const { postorder(visit, root); }
-	void breadthFirstTraversal(void visit(T &, int)) const { breadthFirst(visit, root); }
+	void postorderTraverse(void visit(T &, int)) const { postorder(visit, root); }
+	void breadthFirstTraverse(void visit(T &, int)) const { breadthFirst(visit, root); }
 
 	void preorderTraverse(void visit(T &, ostream &), ostream & strm) const { preorder(visit, root, strm); }
-	//void inorderTraverse(void visit(T &, std::ostream &), std::ostream & strm) const { inorder(visit, root, strm); }
-	void postorderTraversal(void visit(T &, ostream &), ostream & strm) const { postorder(visit, root, strm); }
-	void breadthFirstTraversal(void visit(T &, ostream &), ostream & strm) const { breadthFirst(visit, root, strm); }
+	void inorderTraverse(void visit(T &, std::ostream &), std::ostream & strm) const { inorder(visit, root, strm); }
+	void postorderTraverse(void visit(T &, ostream &), ostream & strm) const { postorder(visit, root, strm); }
+	void breadthFirstTraverse(void visit(T &, ostream &), ostream & strm) const { breadthFirst(visit, root, strm); }
+
 	void preorderTraverse(void visit(T &, int, ostream &), ostream & strm) const { preorder(visit, root, strm); }
 	void inorderTraverse(void visit(T &, int, ostream &), ostream & strm) const { inorder(visit, root, strm); }
 	void postorderTraversal(void visit(T &, int, ostream &), ostream & strm) const { postorder(visit, root, strm); }
 	void breadthFirstTraversal(void visit(T &, int, ostream &), ostream & strm) const { breadthFirst(visit, root, strm); }
-	void inorderBoundedTraversal(void visit(T&), bool leftGreaterThanRight(const T&, const T&), const T& min, const T& max) const;
-	void breadthFirstBoundedTraversal(void visit(T&), bool leftGreaterThanRight(const T&, const T&), const T& min, const T& max) const;
 
+	void inorderBoundedTraverse(void visit(T&), bool leftGreaterThanRight(const T&, const T&), const T& min, const T& max) const { inorderBounded(visit, root, leftGreaterThanRight, min, max); }
+	void breadthFirstBoundedTraverse(void visit(T&), bool leftGreaterThanRight(const T&, const T&), const T& min, const T& max) const { breadthFirstBounded(visit, root, leftGreaterThanRight, min, max); }
+	void preorderBoundedTraverse(void visit(T&), bool leftGreaterThanRight(const T&, const T&), const T& min, const T& max) const { preorderBounded(visit, root, leftGreaterThanRight, min, max); }
+	void postorderBoundedTraverse(void visit(T&), bool leftGreaterThanRight(const T&, const T&), const T& min, const T& max) const { postorderBounded(visit, root, leftGreaterThanRight, min, max); }
 
-	BinaryTree<T> & testo();
+	template<template<class V> class U>
+	void breadthFirstTraverse(void visit(U<T>&, T&), U<T>& obj) const { breadthFirst(visit, root, obj); }
+	template<template<class V> class U>
+	void preorderTraverse(void visit(U<T>&, T&), U<T>& obj) const { preorder(visit, root, obj); }
+	template<template<class V> class U>
+	void inorderTraverse(void visit(U<T>&, T&), U<T>& obj) const { inorder(visit, root, obj); }
+	template<template<class V> class U>
+	void postorderTraverse(void visit(U<T>&, T&), U<T>& obj) const { postorder(visit, root, obj); }
 
+	template<template<class V> class U>
+	void breadthFirstTraverse(void visit(U<T>&, T&, bool LgreaterR(const T &, const T &)), U<T>& obj, bool LGreaterR(const T &, const T &)) const { breadthFirst(visit, root, obj, LGreaterR); }
+	template<template<class V> class U>
+	void preorderTraverse(void visit(U<T>&, T&, bool LgreaterR(const T &, const T &)), U<T>& obj, bool LGreaterR(const T &, const T &)) const { preorder(visit, root, obj, LGreaterR); }
+	template<template<class V> class U>
+	void inorderTraverse(void visit(U<T>&, T&, bool LgreaterR(const T &, const T &)), U<T>& obj, bool LGreaterR(const T &, const T &)) const { inorder(visit, root, obj, LGreaterR); }
+	template<template<class V> class U>
+	void postorderTraverse(void visit(U<T>&, T&, bool LgreaterR(const T &, const T &)), U<T>& obj, bool LGreaterR(const T &, const T &)) const { postorder(visit, root, obj, LGreaterR); }
 
+	template<template<class V> class U>
+	void breadthFirstBoundedTraverse(void visit(U<T>&, T&, bool LgreaterR(const T &, const T &)), U<T>& obj, bool LGreaterR(const T &, const T &), const T & min, const T & max) const { breadthFirstBounded(visit, root, obj, LGreaterR, min, max); }
+	template<template<class V> class U>
+	void preorderBoundedTraverse(void visit(U<T>&, T&, bool LgreaterR(const T &, const T &)), U<T>& obj, bool LGreaterR(const T &, const T &), const T & min, const T & max) const { preorderBounded(visit, root, obj, LGreaterR, min, max); }
+	template<template<class V> class U>
+	void inorderBoundedTraverse(void visit(U<T>&, T&, bool LgreaterR(const T &, const T &)), U<T>& obj, bool LGreaterR(const T &, const T &), const T & min, const T & max) const { inorderBounded(visit, root, obj, LGreaterR, min, max); }
+	template<template<class V> class U>
+	void postorderBoundedTraverse(void visit(U<T>&, T&, bool LgreaterR(const T &, const T &)), U<T>& obj, bool LGreaterR(const T &, const T &), const T & min, const T & max) const { postorderBounded(visit, root, obj, LGreaterR, min, max); }
+
+	template<template<class V> class U>
+	void testFPT(void visit(U<T>&, T&), U<T>&);
+
+	static bool add(BinaryTree<T> & tree, const T & data) { tree.add(data); }
+	static bool add(BinaryTree<T> & tree, const T & data, bool leftGreaterThanRight(const T &, const T &)) { tree.add(data, leftGreaterThanRight); }
 
 	template <class T>
 	friend ostream &operator<< (ostream &, const BinaryTree<T> &);
 
 };
+
+
 
 /*
 	Pre:
@@ -621,6 +686,122 @@ inline void BinaryTree<T>::postorder(void visit(T &, int, ostream&), BinaryNode<
 
 	}
 }
+
+template<class T>
+template<template<class V> class U>
+inline void BinaryTree<T>::breadthFirst(void visit(U<T> &, T&), BinaryNode<T>* treePtr, U<T>& obj) const
+{
+	Queue<BinaryNode<T> *> queue;
+	queue.enqueue(treePtr);
+
+	while (!queue.isEmpty()) {
+		BinaryNode<T>* active = queue.dequeue();
+
+		T item = active->getData();
+		visit(obj, item);
+		if (active->getLeftPtr()) { queue.enqueue(active->getLeftPtr()); }
+		if (active->getRightPtr()) { queue.enqueue(active->getRightPtr()); }
+	}
+}
+
+template<class T>
+template<template<class V> class U>
+inline void BinaryTree<T>::preorder(void visit(U<T>&, T&), BinaryNode<T>* treePtr, U<T>& obj) const
+{
+	if (treePtr)
+	{
+		T theItem = treePtr->getData();
+		visit(obj, theItem);
+		preorder(visit, treePtr->getLeftPtr(), obj);
+		preorder(visit, treePtr->getRightPtr(), obj);
+	}
+}
+
+template<class T>
+template<template<class V> class U>
+inline void BinaryTree<T>::inorder(void visit(U<T>&, T&), BinaryNode<T>* treePtr, U<T>& obj) const
+{
+	if (treePtr)
+	{
+		inorder(visit, treePtr->getLeftPtr(), obj);
+		T theItem = treePtr->getData();
+		visit(obj, theItem);
+		inorder(visit, treePtr->getRightPtr(), obj);
+	}
+}
+
+template<class T>
+template<template<class V> class U>
+inline void BinaryTree<T>::postorder(void visit(U<T>&, T&), BinaryNode<T>* treePtr, U<T>& obj) const
+{
+	if (treePtr)
+	{
+		postorder(visit, treePtr->getLeftPtr(), obj);
+		postorder(visit, treePtr->getRightPtr(), obj);
+		T theItem = treePtr->getData();
+		visit(obj, theItem);
+
+	}
+}
+
+template<class T>
+template<template<class V> class U>
+inline void BinaryTree<T>::breadthFirst(void visit(U<T>&, T&, bool LgreaterR(const T &, const T &)), BinaryNode<T>* treePtr, U<T>& obj, bool LGreaterR(const T &, const T &)) const
+{
+	Queue<BinaryNode<T> *> queue;
+	queue.enqueue(treePtr);
+
+	while (!queue.isEmpty()) {
+		BinaryNode<T>* active = queue.dequeue();
+
+		T item = active->getData();
+		visit(obj, item, LGreaterR);
+		if (active->getLeftPtr()) { queue.enqueue(active->getLeftPtr()); }
+		if (active->getRightPtr()) { queue.enqueue(active->getRightPtr()); }
+	}
+}
+
+template<class T>
+template<template<class V> class U>
+inline void BinaryTree<T>::preorder(void visit(U<T>&, T&, bool LgreaterR(const T &, const T &)), BinaryNode<T>* treePtr, U<T>& obj, bool LGreaterR(const T &, const T &)) const
+{
+	if (treePtr)
+	{
+		T theItem = treePtr->getData();
+		visit(obj, theItem, LGreaterR);
+		preorder(visit, treePtr->getLeftPtr(), obj, LGreaterR);
+		preorder(visit, treePtr->getRightPtr(), obj, LGreaterR);
+	}
+}
+
+template<class T>
+template<template<class V> class U>
+inline void BinaryTree<T>::inorder(void visit(U<T>&, T&, bool LgreaterR(const T &, const T &)), BinaryNode<T>* treePtr, U<T>& obj, bool LGreaterR(const T &, const T &)) const
+{
+	if (treePtr)
+	{
+		inorder(visit, treePtr->getLeftPtr(), obj, LGreaterR);
+		T theItem = treePtr->getData();
+		visit(obj, theItem, LGreaterR);
+		inorder(visit, treePtr->getRightPtr(), obj, LGreaterR);
+	}
+}
+template<class T>
+template<template<class V> class U>
+inline void BinaryTree<T>::postorder(void visit(U<T>&, T&, bool LgreaterR(const T &, const T &)), BinaryNode<T>* treePtr, U<T>& obj, bool LGreaterR(const T &, const T &)) const
+{
+	if (treePtr)
+	{
+		postorder(visit, treePtr->getLeftPtr(), obj, LGreaterR);
+		postorder(visit, treePtr->getRightPtr(), obj, LGreaterR);
+		T theItem = treePtr->getData();
+		visit(obj, theItem, LGreaterR);
+	}
+}
+
+
+
+
 template<class T>
 inline void BinaryTree<T>::inorderBounded(void visit(T &), BinaryNode<T>* treePtr, bool leftGreaterThanRight(const T &, const T &), const T & min, const T & max) const
 {
@@ -644,6 +825,26 @@ inline void BinaryTree<T>::inorderBounded(void visit(T &), BinaryNode<T>* treePt
 	}
 }
 template<class T>
+inline void BinaryTree<T>::postorderBounded(void visit(T&), BinaryNode<T>* treePtr, bool leftGreaterThanRight(const T &, const T &), const T& min, const T& max) const
+{
+	if (treePtr)
+	{
+		
+		if (!leftGreaterThanRight(min, treePtr->getData())) {
+			postorderBounded(visit, treePtr->getLeftPtr(), leftGreaterThanRight, min, max);
+		}
+
+		if (!leftGreaterThanRight(treePtr->getData(), max)) {
+			postorderBounded(visit, treePtr->getRightPtr(), leftGreaterThanRight, min, max);
+		}
+
+		T theItem = treePtr->getData();
+		if (!leftGreaterThanRight(min, theItem) && !leftGreaterThanRight(theItem, max)) {
+			visit(theItem);
+		}
+	}
+}
+template<class T>
 inline void BinaryTree<T>::breadthFirstBounded(void visit(T&), BinaryNode<T>* treePtr, bool leftGreaterThanRight(const T &, const T &), const T& min, const T& max) const
 {
 	Queue<BinaryNode<T>*> queue;
@@ -657,10 +858,114 @@ inline void BinaryTree<T>::breadthFirstBounded(void visit(T&), BinaryNode<T>* tr
 		}
 		
 		if (!leftGreaterThanRight(min, itemData) && active->getLeftPtr()) { queue.enqueue(active->getLeftPtr()); }
-		if (!!leftGreaterThanRight(itemData, max) && active->getRightPtr()) { queue.enqueue(active->getRightPtr()); }
+		if (!leftGreaterThanRight(itemData, max) && active->getRightPtr()) { queue.enqueue(active->getRightPtr()); }
 
 	}
 }
+template<class T>
+inline void BinaryTree<T>::preorderBounded(void visit(T&), BinaryNode<T>* treePtr, bool leftGreaterThanRight(const T&, const T&), const T& min, const T& max) const
+{
+	if (treePtr)
+	{
+		T theItem = treePtr->getData();
+		if (!leftGreaterThanRight(min, theItem) && !leftGreaterThanRight(theItem, max)) {
+			visit(theItem);
+		}
+		if (!leftGreaterThanRight(min, treePtr->getData())) {
+			preorderBounded(visit, treePtr->getLeftPtr(), leftGreaterThanRight, min, max);
+		}
+
+		if (!leftGreaterThanRight(treePtr->getData(), max)) {
+			preorderBounded(visit, treePtr->getRightPtr(), leftGreaterThanRight, min, max);
+		}
+	}
+}
+
+template<class T>
+template<template<class V> class U>
+inline void BinaryTree<T>::breadthFirstBounded(void visit(U<T>&, T&, bool LgreaterR(const T &, const T &)), BinaryNode<T>* treePtr, U<T>& obj, bool leftGreaterThanRight(const T &, const T &), const T & min, const T & max) const
+{
+	Queue<BinaryNode<T>*> queue;
+	queue.enqueue(treePtr);
+
+	while (!queue.isEmpty()) {
+		BinaryNode<T>* active = queue.dequeue();
+		T itemData = active->getData();
+		if (!leftGreaterThanRight(min, itemData) && !leftGreaterThanRight(itemData, max)) {
+			visit(obj, itemData, leftGreaterThanRight);
+		}
+
+		if (!leftGreaterThanRight(min, itemData) && active->getLeftPtr()) { queue.enqueue(active->getLeftPtr()); }
+		if (!leftGreaterThanRight(itemData, max) && active->getRightPtr()) { queue.enqueue(active->getRightPtr()); }
+
+	}
+}
+
+template<class T>
+template<template<class V> class U>
+inline void BinaryTree<T>::preorderBounded(void visit(U<T>&, T&, bool LgreaterR(const T &, const T &)), BinaryNode<T>* treePtr, U<T>& obj, bool leftGreaterThanRight(const T &, const T &), const T & min, const T & max) const
+{
+	if(treePtr)
+	{
+		T theItem = treePtr->getData();
+		if (!leftGreaterThanRight(min, theItem) && !leftGreaterThanRight(theItem, max)) {
+			visit(obj, theItem, leftGreaterThanRight);
+		}
+		if (!leftGreaterThanRight(min, treePtr->getData())) {
+			preorderBounded(visit, treePtr->getLeftPtr(), obj, leftGreaterThanRight, min, max);
+		}
+
+		if (!leftGreaterThanRight(treePtr->getData(), max)) {
+			preorderBounded(visit, treePtr->getRightPtr(), obj, leftGreaterThanRight, min, max);
+		}
+	}
+}
+
+template<class T>
+template<template<class V> class U>
+inline void BinaryTree<T>::inorderBounded(void visit(U<T>&, T&, bool LgreaterR(const T &, const T &)), BinaryNode<T>* treePtr, U<T>& obj, bool leftGreaterThanRight(const T &, const T &), const T & min, const T & max) const
+{
+	if (treePtr)
+	{
+
+		if (!leftGreaterThanRight(min, treePtr->getData())) {
+			inorderBounded(visit, treePtr->getLeftPtr(), obj, leftGreaterThanRight, min, max);
+		}
+
+		T theItem = treePtr->getData();
+		if (!leftGreaterThanRight(min, theItem) && !leftGreaterThanRight(theItem, max)) {
+			visit(obj, theItem, leftGreaterThanRight);
+		}
+
+		if (!leftGreaterThanRight(treePtr->getData(), max)) {
+			inorderBounded(visit, treePtr->getRightPtr(), obj, leftGreaterThanRight, min, max);
+		}
+	}
+}
+
+template<class T>
+template<template<class V> class U>
+inline void BinaryTree<T>::postorderBounded(void visit(U<T>&, T&, bool LgreaterR(const T &, const T &)), BinaryNode<T>* treePtr, U<T>& obj, bool leftGreaterThanRight(const T &, const T &), const T & min, const T & max) const
+{
+	if (treePtr)
+	{
+
+		if (!leftGreaterThanRight(min, treePtr->getData())) {
+			postorderBounded(visit, treePtr->getLeftPtr(), obj, leftGreaterThanRight, min, max);
+		}
+
+		if (!leftGreaterThanRight(treePtr->getData(), max)) {
+			postorderBounded(visit, treePtr->getRightPtr(), obj, leftGreaterThanRight, min, max);
+		}
+
+		T theItem = treePtr->getData();
+		if (!leftGreaterThanRight(min, theItem) && !leftGreaterThanRight(theItem, max)) {
+			visit(obj, theItem, leftGreaterThanRight);
+		}
+	}
+}
+
+
 /*
 	Pre:
 	Perameters:
@@ -775,24 +1080,6 @@ inline void BinaryTree<T>::clear()
 	root = nullptr;
 }
 
-template<class T>
-inline void BinaryTree<T>::inorderBoundedTraversal(void visit(T&), bool leftGreaterThanRight(const T &, const T &), const T& min, const T& max) const
-{
-	inorderBounded(visit, root, leftGreaterThanRight, min, max);
-}
-
-template<class T>
-inline void BinaryTree<T>::breadthFirstBoundedTraversal(void visit(T&), bool leftGreaterThanRight(const T &, const T &), const T& min, const T& max) const
-{
-	breadthFirstBounded(visit, root, leftGreaterThanRight, min, max);
-}
-
-template<class T>
-inline BinaryTree<T> & BinaryTree<T>::testo()
-{
-	BinaryTree<T> test;
-
-}
 
 /*
 	Pre:
@@ -820,8 +1107,16 @@ inline void inorder(void visit(U&,T&), U & othercls, BinaryNode<T>* treePtr)
 }
 
 
-
+template<class T>
+template<template<class V> class U>
+inline void BinaryTree<T>::testFPT(void visit(U<T> &, T&), U<T>& obj)
+{
+	T dumbBoy;
+	visit(obj, dumbBoy);
+}
 
 
 
 #endif
+
+

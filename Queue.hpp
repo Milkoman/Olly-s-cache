@@ -21,6 +21,8 @@ public:
 	T queueRear();
 	void empty() { this->clear(); }
 	int getSize() { return this->getCount(); }
+	
+	static void enqueue(Queue<T> queue, const T & data) { queue.enqueue(data); }
 };
 
 
