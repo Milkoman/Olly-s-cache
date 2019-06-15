@@ -1,4 +1,29 @@
 #include "FoodProcessor.hpp"
+#include "ADTStatic.hpp"
+
+void FoodProcessor::intersect(void visit(Food &) , bool LGR(const Food &, const Food &), Food & minF, Food & maxF)
+{
+
+	BinaryTree<Food> tree1;
+	BinaryTree<Food> tree2;
+
+	calTree.inorderBoundedTraverse(ADTStatic::loadBinaryTree, tree1, Food::calorieLGreaterR, Food::fatLGreaterR, minF, maxF);
+
+	tree1.inorderBoundedTraverse(ADTStatic::loadBinaryTree, tree2, Food::fatLGreaterR, Food::carbLGreaterR, minF, maxF);
+	tree1.clear();
+
+	tree2.inorderBoundedTraverse(ADTStatic::loadBinaryTree, tree1, Food::carbLGreaterR, Food::proteinLGreaterR, minF, maxF);
+
+	tree2.clear();
+	tree1.inorderBoundedTraverse(ADTStatic::loadBinaryTree, tree2, Food::proteinLGreaterR, LGR, minF, maxF);
+	tree2.inorderTraverse(visit);
+}
+
+
+
+
+
+
 
 FoodProcessor::FoodProcessor()
 {
@@ -10,18 +35,8 @@ FoodProcessor::~FoodProcessor()
 
 bool FoodProcessor::replace(const Food& food)
 {
-	Food old;
-	try {
-		old = calTree.search(food);
-	}
-	catch (NotFound) {
-		return false;
-	}
-	if (old.getCalorie() != food.getCalorie() || old.getCarb() != food.getCarb() || old.getFat() != food.getFat() || old.getProtien() != food.getProtien()) {
-		remove(food);
-		add(food);
-	}
-	return true;
+	return calTree.replace(food, Food::calorieLEqualR, Food::calorieLGreaterR) && fatTree.replace(food, Food::fatLEqualR, Food::fatLGreaterR)
+		&& carbTree.replace(food, Food::carbLEqualR, Food::carbLGreaterR) && protTree.replace(food, Food::proteinLEqualR, Food::proteinLGreaterR);
 }
 
 void FoodProcessor::calRangeTraverse(void visit(Food &), int min, int max)
@@ -60,6 +75,42 @@ void FoodProcessor::protRangeTraverse(void visit(Food &), int min, int max)
 	protTree.inorderBoundedTraverse(visit, Food::proteinLGreaterR, minF, maxF);
 }
 
+void FoodProcessor::calIntersectTraverse(void visit(Food &), int minCal, int maxCal, int minFat, int maxFat, int minCarb, int maxCarb, int minProt, int maxProt)
+{
+	Food minF("", minCal, minFat, minCarb, minProt);
+	Food maxF("", maxCal, maxFat, maxCarb, maxProt);
+	intersect(visit, Food::calorieLGreaterR, minF, maxF);
+}
+
+
+
+void FoodProcessor::fatIntersectTraverse(void visit(Food &), int minCal, int maxCal, int minFat, int maxFat, int minCarb, int maxCarb, int minProt, int maxProt)
+{
+	Food minF("", minCal, minFat, minCarb, minProt);
+	Food maxF("", maxCal, maxFat, maxCarb, maxProt);
+	intersect(visit, Food::fatLGreaterR, minF, maxF);
+}
+
+
+
+void FoodProcessor::carbIntersectTraverse(void visit(Food &), int minCal, int maxCal, int minFat, int maxFat, int minCarb, int maxCarb, int minProt, int maxProt)
+{
+	Food minF("", minCal, minFat, minCarb, minProt);
+	Food maxF("", maxCal, maxFat, maxCarb, maxProt);
+	intersect(visit, Food::carbLGreaterR, minF, maxF);
+}
+
+
+
+void FoodProcessor::protIntersectTraverse(void visit(Food &), int minCal, int maxCal, int minFat, int maxFat, int minCarb, int maxCarb, int minProt, int maxProt)
+{
+	Food minF("", minCal, minFat, minCarb, minProt);
+	Food maxF("", maxCal, maxFat, maxCarb, maxProt);
+	intersect(visit, Food::proteinLGreaterR, minF, maxF);
+}
+
+
+
 void FoodProcessor::add(const Food &food)
 {
 	calTree.add(food, Food::calorieLGreaterR);
@@ -68,10 +119,7 @@ void FoodProcessor::add(const Food &food)
 	protTree.add(food, Food::proteinLGreaterR);
 }
 
-void FoodProcessor::remove(const Food& food)
+bool FoodProcessor::remove(const Food& food)
 {
-	calTree.remove(food);
-	fatTree.remove(food);
-	carbTree.remove(food);
-	protTree.remove(food);
+	return calTree.remove(food) && fatTree.remove(food) && carbTree.remove(food) && protTree.remove(food);
 }

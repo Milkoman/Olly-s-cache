@@ -22,7 +22,7 @@ public:
 	void empty() { this->clear(); }
 	int getSize() { return this->getCount(); }
 	
-	static void enqueue(Queue<T> queue, const T & data) { queue.enqueue(data); }
+	static void enqueueStatic(Queue<T> queue, const T & data) { queue.enqueue(data); }
 };
 
 

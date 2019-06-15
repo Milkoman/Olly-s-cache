@@ -50,6 +50,22 @@ bool Food::carbLLessR(const Food & left, const Food & right)
 {
 	return left.carb < right.carb;
 }
+bool Food::calorieLEqualR(const Food & left, const Food & right)
+{
+	return left.getCalorie() == right.getCalorie();
+}
+bool Food::fatLEqualR(const Food & left, const Food & right)
+{
+	return left.getFat() == right.getFat();
+}
+bool Food::proteinLEqualR(const Food & left, const Food & right)
+{
+	return left.getProtien() == right.getProtien();
+}
+bool Food::carbLEqualR(const Food & left, const Food & right)
+{
+	return left.getCarb() == right.getCarb();
+}
 bool Food::proteinLLessR(const Food & left, const Food & right)
 {
 	return left.protien < right.protien;

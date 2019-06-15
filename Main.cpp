@@ -4,6 +4,7 @@
 #include "BinaryTree.hpp"
 #include "Queue.hpp"
 #include "FoodProcessor.hpp"
+#include "ADTStatic.hpp"
 
 using namespace std;
 
@@ -30,6 +31,9 @@ void print(T & data) {
 	cout << data;
 }
 
+template <class T>
+Queue<T> qT;
+
 int main()
 {
 	fstream file;
@@ -51,13 +55,14 @@ int main()
 	cout << calTree;
 	cout << "\n\n\n";
 	cout << fp.getNumFoods() << "\n\n";
-	calTree.testFPT(add, testQ);
-	calTree.inorderTraverse(add, newTree, Food::carbLGreaterR);
 
+
+	//fp.calRangeTraverse(print, 0, 50);
+
+	fp.calIntersectTraverse(ADTStatic::loadBinaryTree, newTree, 0, 50, 0, 50, 0, 4, 0, 50);
 	newTree.inorderTraverse(print);
 
 
-	fp.calRangeTraverse(print,50, 250);
 
 	cout << "\n\nTEST!\n\n";
 	system("pause");

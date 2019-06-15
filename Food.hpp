@@ -46,10 +46,16 @@ class Food
 		static bool fatLGreaterR(const Food &, const Food &);
 		static bool carbLGreaterR(const Food &, const Food &);
 		static bool proteinLGreaterR(const Food &, const Food &);
+
 		static bool calorieLLessR(const Food &, const Food &);
 		static bool fatLLessR(const Food &, const Food &);
 		static bool proteinLLessR(const Food &, const Food &);
 		static bool carbLLessR(const Food &, const Food &);
+
+		static bool calorieLEqualR(const Food &, const Food &);
+		static bool fatLEqualR(const Food &, const Food &);
+		static bool proteinLEqualR(const Food &, const Food &);
+		static bool carbLEqualR(const Food &, const Food &);
 };
 
 
