@@ -8,6 +8,15 @@ Food::Food(const string n, const int cal, const int f, const int c, const int p)
 {
 }
 
+Food::Food(const Food & other)
+{
+	name = other.name;
+	calorie = other.calorie;
+	fat = other.fat;
+	carb = other.carb;
+	protien = other.protien;
+}
+
 bool Food::operator>(const Food &right)
 {
 	return name > right.name;

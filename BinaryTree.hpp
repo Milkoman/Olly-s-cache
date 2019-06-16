@@ -101,7 +101,7 @@ protected:
 public:
 	//Constructors & Destructor
 	BinaryTree();
-	BinaryTree(const T &);
+	BinaryTree(T &);
 
 
 
@@ -113,15 +113,15 @@ public:
 	bool isEmpty() const { return root == nullptr; }
 	int getHeight() const { return getHeightHelper(root); }
 	int getNumNodes() const { return getNumNodesHelper(root); }
-	void setRootData(const T &newData);
-	T getRootData() const;
-	virtual bool add(const T &);
-	virtual bool add(const T &, bool leftGreaterThanRight(const T &, const T &));
+	void setRootData(T &newData);
+	T& getRootData() const;
+	virtual bool add(T &);
+	virtual bool add(T &, bool leftGreaterThanRight(const T &, const T &));
 	bool remove(const T& target);
-	T search(const T & datain);
+	T& search(const T & datain);
 	void clear();
-	bool replace(const T & data);
-	bool replace(const T & data, bool LER(const T &, const T &), bool LGR(const T &, const T &));
+	bool replace(T & data);
+	bool replace(T & data, bool LER(const T &, const T &), bool LGR(const T &, const T &));
 
 	//Traversals ***Requires client defined function(s) - pass said function as argument***
 	void preorderTraverse(void visit(T &)) const { preorder(visit, root); }
@@ -472,8 +472,7 @@ inline void BinaryTree<T>::breadthFirst(void visit(T &), BinaryNode<T>* treePtr)
 	while (!queue.isEmpty()) {
 		BinaryNode<T>* active = queue.dequeue();
 
-		T item = active->getData();
-		visit(item);
+		visit(active->getData());
 		if (active->getLeftPtr()) { queue.enqueue(active->getLeftPtr()); }
 		if (active->getRightPtr()) { queue.enqueue(active->getRightPtr()); }
 
@@ -489,8 +488,7 @@ inline void BinaryTree<T>::preorder(void visit(T &), BinaryNode<T>* treePtr) con
 {
 	if (treePtr)
 	{
-		T theItem = treePtr->getData();
-		visit(theItem);
+		visit(treePtr->getData());
 		preorder(visit, treePtr->getLeftPtr());
 		preorder(visit, treePtr->getRightPtr());
 	}
@@ -506,8 +504,7 @@ inline void BinaryTree<T>::inorder(void visit(T &), BinaryNode<T>* treePtr) cons
 	if (treePtr)
 	{
 		inorder(visit, treePtr->getLeftPtr());
-		T theItem = treePtr->getData();
-		visit(theItem);
+		visit(treePtr->getData());
 		inorder(visit, treePtr->getRightPtr());
 	}
 }
@@ -523,8 +520,7 @@ inline void BinaryTree<T>::postorder(void visit(T &), BinaryNode<T>* treePtr) co
 	{
 		postorder(visit, treePtr->getLeftPtr());
 		postorder(visit, treePtr->getRightPtr());
-		T theItem = treePtr->getData();
-		visit(theItem);
+		visit(treePtr->getData());
 
 	}
 }
@@ -543,9 +539,7 @@ inline void BinaryTree<T>::breadthFirst(void visit(T &, ostream &), BinaryNode<T
 
 	while (!queue.isEmpty()) {
 		BinaryNode<T>* active = queue.dequeue();
-
-		T item = active->getData();
-		visit(item, strm);
+		visit(active->getData(), strm);
 		if (active->getLeftPtr()) { queue.enqueue(active->getLeftPtr()); }
 		if (active->getRightPtr()) { queue.enqueue(active->getRightPtr()); }
 
@@ -561,8 +555,7 @@ inline void BinaryTree<T>::preorder(void visit(T &, ostream &), BinaryNode<T>* t
 {
 	if (treePtr)
 	{
-		T theItem = treePtr->getData();
-		visit(theItem, strm);
+		visit(treePtr->getData(), strm);
 		preorder(visit, treePtr->getLeftPtr(), strm);
 		preorder(visit, treePtr->getRightPtr(), strm);
 	}
@@ -579,8 +572,7 @@ inline void BinaryTree<T>::inorder(void visit(T &, ostream &), BinaryNode<T>* tr
 	if (treePtr)
 	{
 		inorder(visit, treePtr->getLeftPtr(), strm);
-		T theItem = treePtr->getData();
-		visit(theItem, strm);
+		visit(treePtr->getData(), strm);
 		inorder(visit, treePtr->getRightPtr(), strm);
 	}
 }
@@ -597,8 +589,7 @@ inline void BinaryTree<T>::postorder(void visit(T &, ostream &), BinaryNode<T>* 
 	{
 		postorder(visit, treePtr->getLeftPtr(), strm);
 		postorder(visit, treePtr->getRightPtr(), strm);
-		T theItem = treePtr->getData();
-		visit(theItem, strm);
+		visit(treePtr->getData(), strm);
 
 	}
 }
@@ -616,8 +607,7 @@ inline void BinaryTree<T>::breadthFirst(void visit(T &, int), BinaryNode<T>* tre
 
 	while (!queue.isEmpty()) {
 		BinaryNode<T>* active = queue.dequeue();
-		T item = active->getData();
-		visit(item, getHeightHelper(active));
+		visit(active->getData(), getHeightHelper(active));
 		if (active->getLeftPtr()) { queue.enqueue(active->getLeftPtr()); }
 		if (active->getRightPtr()) { queue.enqueue(active->getRightPtr()); }
 
@@ -633,8 +623,7 @@ inline void BinaryTree<T>::preorder(void visit(T &, int), BinaryNode<T>* treePtr
 {
 	if (treePtr)
 	{
-		T theItem = treePtr->getData();
-		visit(theItem, getHeightHelper(treePtr));
+		visit(treePtr->getData(), getHeightHelper(treePtr));
 		preorder(visit, treePtr->getLeftPtr());
 		preorder(visit, treePtr->getRightPtr());
 	}
@@ -650,8 +639,7 @@ inline void BinaryTree<T>::inorder(void visit(T &, int), BinaryNode<T>* treePtr)
 	if (treePtr)
 	{
 		inorder(visit, treePtr->getLeftPtr());
-		T theItem = treePtr->getData();
-		visit(theItem, getHeightHelper(treePtr));
+		visit(treePtr->getData(), getHeightHelper(treePtr));
 		inorder(visit, treePtr->getRightPtr());
 	}
 }
@@ -667,8 +655,7 @@ inline void BinaryTree<T>::postorder(void visit(T &, int), BinaryNode<T>* treePt
 	{
 		postorder(visit, treePtr->getLeftPtr());
 		postorder(visit, treePtr->getRightPtr());
-		T theItem = treePtr->getData();
-		visit(theItem, getHeightHelper(treePtr));
+		visit(treePtr->getData(), getHeightHelper(treePtr));
 
 	}
 }
@@ -703,8 +690,7 @@ inline void BinaryTree<T>::preorder(void visit(T &, int, ostream&), BinaryNode<T
 {
 	if (treePtr)
 	{
-		T theItem = treePtr->getData();
-		visit(theItem, getHeightHelper(treePtr), strm);
+		visit(treePtr->getData(), getHeightHelper(treePtr), strm);
 		preorder(visit, treePtr->getLeftPtr(), strm);
 		preorder(visit, treePtr->getRightPtr(), strm);
 	}
@@ -720,8 +706,7 @@ inline void BinaryTree<T>::inorder(void visit(T &, int, ostream&), BinaryNode<T>
 	if (treePtr)
 	{
 		inorder(visit, treePtr->getLeftPtr(), strm);
-		T theItem = treePtr->getData();
-		visit(theItem, getHeightHelper(treePtr), strm);
+		visit(treePtr->getData(), getHeightHelper(treePtr), strm);
 		inorder(visit, treePtr->getRightPtr(), strm);
 	}
 }
@@ -737,8 +722,7 @@ inline void BinaryTree<T>::postorder(void visit(T &, int, ostream&), BinaryNode<
 	{
 		postorder(visit, treePtr->getLeftPtr(), strm);
 		postorder(visit, treePtr->getRightPtr(), strm);
-		T theItem = treePtr->getData();
-		visit(theItem, getHeightHelper(treePtr), strm);
+		visit(treePtr->getData(), getHeightHelper(treePtr), strm);
 
 	}
 }
@@ -754,8 +738,7 @@ inline void BinaryTree<T>::breadthFirst(void visit(U<T> &, T&), BinaryNode<T>* t
 	while (!queue.isEmpty()) {
 		BinaryNode<T>* active = queue.dequeue();
 
-		T item = active->getData();
-		visit(obj, item);
+		visit(obj, active->getData());
 		if (active->getLeftPtr()) { queue.enqueue(active->getLeftPtr()); }
 		if (active->getRightPtr()) { queue.enqueue(active->getRightPtr()); }
 	}
@@ -767,8 +750,7 @@ inline void BinaryTree<T>::preorder(void visit(U<T>&, T&), BinaryNode<T>* treePt
 {
 	if (treePtr)
 	{
-		T theItem = treePtr->getData();
-		visit(obj, theItem);
+		visit(obj, treePtr->getData());
 		preorder(visit, treePtr->getLeftPtr(), obj);
 		preorder(visit, treePtr->getRightPtr(), obj);
 	}
@@ -781,8 +763,7 @@ inline void BinaryTree<T>::inorder(void visit(U<T>&, T&), BinaryNode<T>* treePtr
 	if (treePtr)
 	{
 		inorder(visit, treePtr->getLeftPtr(), obj);
-		T theItem = treePtr->getData();
-		visit(obj, theItem);
+		visit(obj, treePtr->getData());
 		inorder(visit, treePtr->getRightPtr(), obj);
 	}
 }
@@ -795,8 +776,7 @@ inline void BinaryTree<T>::postorder(void visit(U<T>&, T&), BinaryNode<T>* treeP
 	{
 		postorder(visit, treePtr->getLeftPtr(), obj);
 		postorder(visit, treePtr->getRightPtr(), obj);
-		T theItem = treePtr->getData();
-		visit(obj, theItem);
+		visit(obj, treePtr->getData());
 
 	}
 }
@@ -812,8 +792,7 @@ inline void BinaryTree<T>::breadthFirst(void visit(U<T>&, T&, bool LgreaterR(con
 	while (!queue.isEmpty()) {
 		BinaryNode<T>* active = queue.dequeue();
 
-		T item = active->getData();
-		visit(obj, item, LGreaterR);
+		visit(obj, active->getData(), LGreaterR);
 		if (active->getLeftPtr()) { queue.enqueue(active->getLeftPtr()); }
 		if (active->getRightPtr()) { queue.enqueue(active->getRightPtr()); }
 	}
@@ -825,8 +804,8 @@ inline void BinaryTree<T>::preorder(void visit(U<T>&, T&, bool LgreaterR(const T
 {
 	if (treePtr)
 	{
-		T theItem = treePtr->getData();
-		visit(obj, theItem, LGreaterR);
+
+		visit(obj, treePtr->getData(), LGreaterR);
 		preorder(visit, treePtr->getLeftPtr(), obj, LGreaterR);
 		preorder(visit, treePtr->getRightPtr(), obj, LGreaterR);
 	}
@@ -839,8 +818,7 @@ inline void BinaryTree<T>::inorder(void visit(U<T>&, T&, bool LgreaterR(const T 
 	if (treePtr)
 	{
 		inorder(visit, treePtr->getLeftPtr(), obj, LGreaterR);
-		T theItem = treePtr->getData();
-		visit(obj, theItem, LGreaterR);
+		visit(obj, treePtr->getData(), LGreaterR);
 		inorder(visit, treePtr->getRightPtr(), obj, LGreaterR);
 	}
 }
@@ -852,8 +830,7 @@ inline void BinaryTree<T>::postorder(void visit(U<T>&, T&, bool LgreaterR(const 
 	{
 		postorder(visit, treePtr->getLeftPtr(), obj, LGreaterR);
 		postorder(visit, treePtr->getRightPtr(), obj, LGreaterR);
-		T theItem = treePtr->getData();
-		visit(obj, theItem, LGreaterR);
+		visit(obj, treePtr->getData(), LGreaterR);
 	}
 }
 
@@ -870,9 +847,8 @@ inline void BinaryTree<T>::inorderBounded(void visit(T &), BinaryNode<T>* treePt
 			inorderBounded(visit, treePtr->getLeftPtr(), leftGreaterThanRight, min, max);
 		}
 		
-		T theItem = treePtr->getData();
-		if (!leftGreaterThanRight(min, theItem) && !leftGreaterThanRight(theItem, max)) {
-			visit(theItem);
+		if (!leftGreaterThanRight(min, treePtr->getData()) && !leftGreaterThanRight(treePtr->getData(), max)) {
+			visit(treePtr->getData());
 		}
 
 		if (!leftGreaterThanRight(treePtr->getData(), max)) {
@@ -896,9 +872,8 @@ inline void BinaryTree<T>::postorderBounded(void visit(T&), BinaryNode<T>* treeP
 			postorderBounded(visit, treePtr->getRightPtr(), leftGreaterThanRight, min, max);
 		}
 
-		T theItem = treePtr->getData();
-		if (!leftGreaterThanRight(min, theItem) && !leftGreaterThanRight(theItem, max)) {
-			visit(theItem);
+		if (!leftGreaterThanRight(min, treePtr->getData()) && !leftGreaterThanRight(treePtr->getData(), max)) {
+			visit(treePtr->getData());
 		}
 	}
 }
@@ -911,13 +886,12 @@ inline void BinaryTree<T>::breadthFirstBounded(void visit(T&), BinaryNode<T>* tr
 
 	while (!queue.isEmpty()) {
 		BinaryNode<T>* active = queue.dequeue();
-		T itemData = active->getData();
-		if (!leftGreaterThanRight(min, itemData) && !leftGreaterThanRight(itemData, max)) {
-			visit(itemData);
+		if (!leftGreaterThanRight(min, active->getData()) && !leftGreaterThanRight(active->getData(), max)) {
+			visit(active->getData());
 		}
 		
-		if (!leftGreaterThanRight(min, itemData) && active->getLeftPtr()) { queue.enqueue(active->getLeftPtr()); }
-		if (!leftGreaterThanRight(itemData, max) && active->getRightPtr()) { queue.enqueue(active->getRightPtr()); }
+		if (!leftGreaterThanRight(min, active->getData()) && active->getLeftPtr()) { queue.enqueue(active->getLeftPtr()); }
+		if (!leftGreaterThanRight(active->getData(), max) && active->getRightPtr()) { queue.enqueue(active->getRightPtr()); }
 
 	}
 }
@@ -926,9 +900,8 @@ inline void BinaryTree<T>::preorderBounded(void visit(T&), BinaryNode<T>* treePt
 {
 	if (treePtr)
 	{
-		T theItem = treePtr->getData();
-		if (!leftGreaterThanRight(min, theItem) && !leftGreaterThanRight(theItem, max)) {
-			visit(theItem);
+		if (!leftGreaterThanRight(min, treePtr->getData()) && !leftGreaterThanRight(treePtr->getData(), max)) {
+			visit(treePtr->getData());
 		}
 		if (!leftGreaterThanRight(min, treePtr->getData())) {
 			preorderBounded(visit, treePtr->getLeftPtr(), leftGreaterThanRight, min, max);
@@ -950,13 +923,12 @@ inline void BinaryTree<T>::breadthFirstBounded(void visit(U<T>&, T&), BinaryNode
 
 	while (!queue.isEmpty()) {
 		BinaryNode<T>* active = queue.dequeue();
-		T itemData = active->getData();
-		if (!leftGreaterThanRight(min, itemData) && !leftGreaterThanRight(itemData, max)) {
-			visit(obj, itemData);
+		if (!leftGreaterThanRight(min, active->getData()) && !leftGreaterThanRight(active->getData(), max)) {
+			visit(obj, active->getData());
 		}
 
-		if (!leftGreaterThanRight(min, itemData) && active->getLeftPtr()) { queue.enqueue(active->getLeftPtr()); }
-		if (!leftGreaterThanRight(itemData, max) && active->getRightPtr()) { queue.enqueue(active->getRightPtr()); }
+		if (!leftGreaterThanRight(min, active->getData()) && active->getLeftPtr()) { queue.enqueue(active->getLeftPtr()); }
+		if (!leftGreaterThanRight(active->getData(), max) && active->getRightPtr()) { queue.enqueue(active->getRightPtr()); }
 
 	}
 }
@@ -967,9 +939,8 @@ inline void BinaryTree<T>::preorderBounded(void visit(U<T>&, T&), BinaryNode<T>*
 {
 	if (treePtr)
 	{
-		T theItem = treePtr->getData();
-		if (!leftGreaterThanRight(min, theItem) && !leftGreaterThanRight(theItem, max)) {
-			visit(obj, theItem);
+		if (!leftGreaterThanRight(min, treePtr->getData()) && !leftGreaterThanRight(treePtr->getData(), max)) {
+			visit(obj, treePtr->getData());
 		}
 		if (!leftGreaterThanRight(min, treePtr->getData())) {
 			preorderBounded(visit, treePtr->getLeftPtr(), obj, leftGreaterThanRight, min, max);
@@ -992,9 +963,8 @@ inline void BinaryTree<T>::inorderBounded(void visit(U<T>&, T&), BinaryNode<T>* 
 			inorderBounded(visit, treePtr->getLeftPtr(), obj, leftGreaterThanRight, min, max);
 		}
 
-		T theItem = treePtr->getData();
-		if (!leftGreaterThanRight(min, theItem) && !leftGreaterThanRight(theItem, max)) {
-			visit(obj, theItem);
+		if (!leftGreaterThanRight(min, treePtr->getData()) && !leftGreaterThanRight(treePtr->getData(), max)) {
+			visit(obj, treePtr->getData());
 		}
 
 		if (!leftGreaterThanRight(treePtr->getData(), max)) {
@@ -1018,9 +988,8 @@ inline void BinaryTree<T>::postorderBounded(void visit(U<T>&, T&), BinaryNode<T>
 			postorderBounded(visit, treePtr->getRightPtr(), obj, leftGreaterThanRight, min, max);
 		}
 
-		T theItem = treePtr->getData();
-		if (!leftGreaterThanRight(min, theItem) && !leftGreaterThanRight(theItem, max)) {
-			visit(obj, theItem);
+		if (!leftGreaterThanRight(min, treePtr->getData()) && !leftGreaterThanRight(treePtr->getData(), max)) {
+			visit(obj, treePtr->getData());
 		}
 	}
 }
@@ -1035,13 +1004,12 @@ inline void BinaryTree<T>::breadthFirstBounded(void visit(U<T>&, T&, bool Lgreat
 
 	while (!queue.isEmpty()) {
 		BinaryNode<T>* active = queue.dequeue();
-		T itemData = active->getData();
-		if (!leftGreaterThanRight(min, itemData) && !leftGreaterThanRight(itemData, max)) {
-			visit(obj, itemData, LGreaterRP);
+		if (!leftGreaterThanRight(min, active->getData()) && !leftGreaterThanRight(active->getData(), max)) {
+			visit(obj, active->getData(), LGreaterRP);
 		}
 
-		if (!leftGreaterThanRight(min, itemData) && active->getLeftPtr()) { queue.enqueue(active->getLeftPtr()); }
-		if (!leftGreaterThanRight(itemData, max) && active->getRightPtr()) { queue.enqueue(active->getRightPtr()); }
+		if (!leftGreaterThanRight(min, active->getData()) && active->getLeftPtr()) { queue.enqueue(active->getLeftPtr()); }
+		if (!leftGreaterThanRight(active->getData(), max) && active->getRightPtr()) { queue.enqueue(active->getRightPtr()); }
 
 	}
 }
@@ -1052,9 +1020,8 @@ inline void BinaryTree<T>::preorderBounded(void visit(U<T>&, T&, bool LgreaterR(
 {
 	if(treePtr)
 	{
-		T theItem = treePtr->getData();
-		if (!leftGreaterThanRight(min, theItem) && !leftGreaterThanRight(theItem, max)) {
-			visit(obj, theItem, LGreaterRP);
+		if (!leftGreaterThanRight(min, treePtr->getData()) && !leftGreaterThanRight(treePtr->getData(), max)) {
+			visit(obj, treePtr->getData(), LGreaterRP);
 		}
 		if (!leftGreaterThanRight(min, treePtr->getData())) {
 			preorderBounded(visit, treePtr->getLeftPtr(), obj, leftGreaterThanRight, LGreaterRP, min, max);
@@ -1077,9 +1044,8 @@ inline void BinaryTree<T>::inorderBounded(void visit(U<T>&, T&, bool LgreaterR(c
 			inorderBounded(visit, treePtr->getLeftPtr(), obj, leftGreaterThanRight, LGreaterRP, min, max);
 		}
 
-		T theItem = treePtr->getData();
-		if (!leftGreaterThanRight(min, theItem) && !leftGreaterThanRight(theItem, max)) {
-			visit(obj, theItem, LGreaterRP);
+		if (!leftGreaterThanRight(min, treePtr->getData()) && !leftGreaterThanRight(treePtr->getData(), max)) {
+			visit(obj, treePtr->getData(), LGreaterRP);
 		}
 
 		if (!leftGreaterThanRight(treePtr->getData(), max)) {
@@ -1126,7 +1092,7 @@ inline BinaryTree<T>::BinaryTree() : root(nullptr)
 	Post: Creates new node with root data, and sets root to it
 */
 template<class T>
-inline BinaryTree<T>::BinaryTree(const T &rootData)
+inline BinaryTree<T>::BinaryTree(T &rootData)
 {
 	BinaryNode<T> *newnode = new BinaryNode<T>(rootData);
 	root = newnode;
@@ -1139,7 +1105,7 @@ inline BinaryTree<T>::BinaryTree(const T &rootData)
 	Post: Sets root data
 */
 template<class T>
-inline void BinaryTree<T>::setRootData(const T & newData)
+inline void BinaryTree<T>::setRootData(T & newData)
 {
 	if (isEmpty())
 	{
@@ -1156,7 +1122,7 @@ inline void BinaryTree<T>::setRootData(const T & newData)
 	Post: Returns root data
 */
 template<class T>
-inline T BinaryTree<T>::getRootData() const
+inline T& BinaryTree<T>::getRootData() const
 {
 	if (isEmpty())
 		throw EmptyTree();
@@ -1169,7 +1135,7 @@ inline T BinaryTree<T>::getRootData() const
 	Post: creates a new node with the datam and places it according to placeNode with root as the subtree
 */
 template<class T>
-inline bool BinaryTree<T>::add(const T &newData)
+inline bool BinaryTree<T>::add(T &newData)
 {
 	BinaryNode<T> *newNode = new BinaryNode<T>(newData);
 	root = placeNode(root, newNode);
@@ -1181,7 +1147,7 @@ inline bool BinaryTree<T>::add(const T &newData)
 	Post: creates a new node with the datam and places it according to placeNode with root as the subtree and the comparison function
 */
 template<class T>
-inline bool BinaryTree<T>::add(const T & newData, bool leftGreaterThanRight(const T &,const  T &))
+inline bool BinaryTree<T>::add(T & newData, bool leftGreaterThanRight(const T &,const  T &))
 {
 	BinaryNode<T> *newNode = new BinaryNode<T>(newData);
 	root = placeNode(root, newNode, leftGreaterThanRight);
@@ -1206,7 +1172,7 @@ inline bool BinaryTree<T>::remove(const T & target)
 	Post: Whether or not the data is in the tree
 */
 template<class T>
-inline T BinaryTree<T>::search(const T & dataIn)
+inline T& BinaryTree<T>::search(const T & dataIn)
 {
 	if (findNode(root, dataIn))
 		return dataIn;
@@ -1226,7 +1192,7 @@ inline void BinaryTree<T>::clear()
 }
 
 template<class T>
-inline bool BinaryTree<T>::replace(const T & data)
+inline bool BinaryTree<T>::replace(T & data)
 {
 	BinaryNode<T> newNode = new BinaryNode<T>(data);
 	if (findNode(root, data)) {
@@ -1240,7 +1206,7 @@ inline bool BinaryTree<T>::replace(const T & data)
 }
 
 template<class T>
-inline bool BinaryTree<T>::replace(const T & data, bool LER(const T &, const T &), bool LGR(const T &, const T &))
+inline bool BinaryTree<T>::replace(T & data, bool LER(const T &, const T &), bool LGR(const T &, const T &))
 {
 	bool dummysuccess;
 	BinaryNode<T>* newNode = new BinaryNode<T>(data);

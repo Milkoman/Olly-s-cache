@@ -33,7 +33,7 @@ FoodProcessor::~FoodProcessor()
 {
 }
 
-bool FoodProcessor::replace(const Food& food)
+bool FoodProcessor::replace(Food& food)
 {
 	return calTree.replace(food, Food::calorieLEqualR, Food::calorieLGreaterR) && fatTree.replace(food, Food::fatLEqualR, Food::fatLGreaterR)
 		&& carbTree.replace(food, Food::carbLEqualR, Food::carbLGreaterR) && protTree.replace(food, Food::proteinLEqualR, Food::proteinLGreaterR);
@@ -111,7 +111,7 @@ void FoodProcessor::protIntersectTraverse(void visit(Food &), int minCal, int ma
 
 
 
-void FoodProcessor::add(const Food &food)
+void FoodProcessor::add(Food &food)
 {
 	calTree.add(food, Food::calorieLGreaterR);
 	fatTree.add(food, Food::fatLGreaterR);

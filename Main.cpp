@@ -38,16 +38,18 @@ int main()
 {
 	fstream file;
 	file.open("foodData.txt");
-	Food item;
+	
 	FoodProcessor fp;
 	Queue<Food> testQ;
+	Food item;
 
 	BinaryTree<Food> calTree;
 	BinaryTree<Food> newTree;
 	while (file >> item)
 	{
-		calTree.add(item, Food::calorieLGreaterR);
-		fp.add(item);
+		Food * newItem = new Food(item);
+		calTree.add(*newItem, Food::calorieLGreaterR);
+		fp.add(*newItem);
 	}
 	cout << "BTREE\n";
 	//cout << calTree;

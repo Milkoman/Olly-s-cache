@@ -22,6 +22,7 @@ class Food
 	public:
 		Food();
 		Food(const string, const int, const int, const int, const int);
+		Food(const Food &);
 		
 		//Mutators
 		void setName(const string n) { name = n; }

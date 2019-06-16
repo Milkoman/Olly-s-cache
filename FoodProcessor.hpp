@@ -21,7 +21,7 @@ public:
 	FoodProcessor();
 	~FoodProcessor();
 
-	bool replace(const Food&);
+	bool replace(Food&);
 	void calRangeTraverse(void visit(Food &), int min, int max);
 	void fatRangeTraverse(void visit(Food &), int min, int max);
 	void carbRangeTraverse(void visit(Food &), int min, int max);
@@ -43,7 +43,7 @@ public:
 
 	int getNumFoods() { return calTree.getNumNodes(); };
 
-	void add(const Food &);
+	void add(Food &);
 	bool remove(const Food&);
 
 	

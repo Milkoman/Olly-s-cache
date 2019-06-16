@@ -13,24 +13,24 @@ template<class T>
 class BinaryNode
 {
 	private:
-		T data;
+		T *data;
 		BinaryNode<T> *left;
 		BinaryNode<T> *right;
 
 	public:
 		//Constructors
 		BinaryNode();
-		BinaryNode(const T &);
-		BinaryNode(const T &, BinaryNode<T> *, BinaryNode<T> *);
+		BinaryNode(T &);
+		BinaryNode(T &, BinaryNode<T> *, BinaryNode<T> *);
 
 		//Mutators
-		void setData(const T &nodeData) { data = nodeData; }
+		void setData(T & nodeData) { data = &nodeData; }
 		void setLeftPtr(BinaryNode<T> *leftPtr) { left = leftPtr; }
 		void setRightPtr(BinaryNode<T> *rightPtr) { right = rightPtr; }
 		void swap();
 
 		//Accessors
-		T getData() const { return data; }
+		T & getData() const { return *data; }
 		BinaryNode<T> * getLeftPtr() const { return left; }
 		BinaryNode<T> * getRightPtr() const { return right; }
 		
@@ -49,12 +49,12 @@ inline BinaryNode<T>::BinaryNode() : left(nullptr), right(nullptr)
 }
 
 template<class T>
-inline BinaryNode<T>::BinaryNode(const T & nodedata) : data(nodedata), left(nullptr), right(nullptr)
+inline BinaryNode<T>::BinaryNode(T & nodedata) : data(&nodedata), left(nullptr), right(nullptr)
 {
 }
 
 template<class T>
-inline BinaryNode<T>::BinaryNode(const T & nodedata, BinaryNode<T>* Lptr, BinaryNode<T>* Rptr) : data(nodedata), left(Lptr), right(Rptr)
+inline BinaryNode<T>::BinaryNode(T & nodedata, BinaryNode<T>* Lptr, BinaryNode<T>* Rptr) : data(&nodedata), left(Lptr), right(Rptr)
 {
 }
 
