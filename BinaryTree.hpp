@@ -30,7 +30,7 @@ protected:
 	BinaryNode<T> * placeNode(BinaryNode<T> *, BinaryNode<T> *);
 	BinaryNode<T> * placeNode(BinaryNode<T> *, BinaryNode<T> *, bool leftGreaterThanRight(const T &,const  T &));
 	BinaryNode<T> * removeNode(BinaryNode<T> *);
-	BinaryNode<T> * removeLeftmostNode(BinaryNode<T> *, T &);
+	BinaryNode<T> * removeLeftmostNode(BinaryNode<T> *, T **);
 	BinaryNode<T> * removeValue(BinaryNode<T> *, const T &, bool &);
 	BinaryNode<T> * removeValue(BinaryNode<T> *, const T &, bool &, bool LER(const T &, const  T &), bool LGR(const T &, const  T &));
 	BinaryNode<T> * findNode(BinaryNode<T> *, const T &) const;
@@ -118,6 +118,7 @@ public:
 	virtual bool add(T &);
 	virtual bool add(T &, bool leftGreaterThanRight(const T &, const T &));
 	bool remove(const T& target);
+	bool remove(T & target, bool LER(const T &, const T &), bool LGR(const T &, const T &));
 	T& search(const T & datain);
 	void clear();
 	bool replace(T & data);
@@ -325,17 +326,18 @@ inline BinaryNode<T>* BinaryTree<T>::removeNode(BinaryNode<T> *nodePtr)
 	else
 	{
 		BinaryNode<T> *pNext = nodePtr->getRightPtr();
-		T newNodeValue;
+		T **newNodeValue = new T*;
 		while (pNext->getLeftPtr())
 		{
-			newNodeValue = pNext->getData();
+			*newNodeValue = &(pNext->getData());
 			pNext = pNext->getLeftPtr();
 		}
 
 
 		BinaryNode<T> *tempPtr = removeLeftmostNode(nodePtr->getRightPtr(), newNodeValue);
 		nodePtr->setRightPtr(tempPtr);
-		nodePtr->setData(newNodeValue);
+		nodePtr->setData(**newNodeValue);
+		delete newNodeValue;
 		return nodePtr;
 	}
 }
@@ -345,11 +347,11 @@ inline BinaryNode<T>* BinaryTree<T>::removeNode(BinaryNode<T> *nodePtr)
 	Post: Recursively finds the left-most node, sets its value to inorderSuccessor and deletes the node to be deleted
 */
 template<class T>
-inline BinaryNode<T>* BinaryTree<T>::removeLeftmostNode(BinaryNode<T> *nodePtr, T &inorderSuccessor)
+inline BinaryNode<T>* BinaryTree<T>::removeLeftmostNode(BinaryNode<T> *nodePtr, T **inorderSuccessor)
 {
 	if (nodePtr->getLeftPtr() == nullptr)
 	{
-		inorderSuccessor = nodePtr->getData();
+		*inorderSuccessor = &(nodePtr->getData());
 		return removeNode(nodePtr);
 	}
 	else
@@ -1164,6 +1166,13 @@ inline bool BinaryTree<T>::remove(const T & target)
 {
 	bool isSuccessful = false;
 	root = removeValue(root, target, isSuccessful);
+	return isSuccessful;
+}
+template<class T>
+inline bool BinaryTree<T>::remove(T & target, bool LER(const T &, const T &), bool LGR(const T &, const T &))
+{
+	bool isSuccessful = false;
+	root = removeValue(root, target, isSuccessful, LER, LGR);
 	return isSuccessful;
 }
 /*

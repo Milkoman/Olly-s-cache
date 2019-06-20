@@ -1,6 +1,6 @@
 #include "Food.hpp"
 
-Food::Food()
+Food::Food() : name(""), calorie(0), fat(0), carb(0), protien(0)
 {
 }
 
@@ -74,6 +74,10 @@ bool Food::proteinLEqualR(const Food & left, const Food & right)
 bool Food::carbLEqualR(const Food & left, const Food & right)
 {
 	return left.getCarb() == right.getCarb();
+}
+bool Food::completeLEqualR(const Food &left, const Food &right)
+{
+	return left.name == right.name && left.calorie == right.calorie && left.fat == right.fat && left.carb == right.carb && left.protien == right.protien;
 }
 bool Food::proteinLLessR(const Food & left, const Food & right)
 {

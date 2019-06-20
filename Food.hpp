@@ -57,6 +57,8 @@ class Food
 		static bool fatLEqualR(const Food &, const Food &);
 		static bool proteinLEqualR(const Food &, const Food &);
 		static bool carbLEqualR(const Food &, const Food &);
+
+		static bool completeLEqualR(const Food &, const Food &);
 };
 
 

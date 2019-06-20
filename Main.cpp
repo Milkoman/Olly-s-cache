@@ -30,6 +30,13 @@ template <class T>
 void print(T & data) {
 	cout << data;
 }
+template <class T>
+void printIndent(T & data, int h) {
+	for (int i = 1; i < h; i ++) {
+		cout << '\t';
+	}
+	cout << data << '\n';
+}
 
 template <class T>
 Queue<T> qT;
@@ -59,10 +66,13 @@ int main()
 	cout << fp.getNumFoods() << "\n\n";
 
 
-	//fp.calRangeTraverse(print, 0, 50);
-
-	fp.calIntersectTraverse(ADTStatic::loadBinaryTree, newTree, 0, 50, 0, 50, 0, 4, 0, 50);
-	newTree.inorderTraverse(print);
+	calTree.inorderTraverse(printIndent);
+	Food del("apple",95,0,25,1);
+	calTree.remove(del,Food::completeLEqualR, Food::calorieLGreaterR);
+	cout << "\n\n\n\n";
+	calTree.inorderTraverse(printIndent);
+	//fp.calIntersectTraverse(ADTStatic::loadBinaryTree, newTree, 0, 50, 0, 50, 0, 4, 0, 50);
+	//newTree.inorderTraverse(print);
 
 
 
